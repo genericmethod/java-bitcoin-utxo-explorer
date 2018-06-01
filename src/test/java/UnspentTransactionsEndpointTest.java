@@ -11,14 +11,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static io.restassured.RestAssured.when;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 public class UnspentTransactionsEndpointTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
-
-    //https://blockchain.info/unspent?active=$address
 
     @BeforeClass
     public static void setup() {
@@ -41,18 +40,20 @@ public class UnspentTransactionsEndpointTest {
         stubFor(get("/unspent?active="+addressThatReturnsEmptyArray)
                 .willReturn(okJson(noUnspentOutputResponse)));
 
+        String resp = "{\"outputs\":[]}";
+
         when().
                 get("/address/" + addressThatReturnsEmptyArray).
                 then().
                 statusCode(200).
-                body("outputs", hasSize(0));
+                body(equalTo(resp));
 
         WireMock.reset();
 
     }
 
     @Test
-    public void testSingleUnspentTranasctionFound(){
+    public void testSingleUnspentTransactionFound(){
 
         String singleUnspentOutputResponse =
                 "{\n" +
@@ -74,11 +75,13 @@ public class UnspentTransactionsEndpointTest {
         stubFor(get("/unspent?active=" + addressThatReturnsOneOutput)
                 .willReturn(okJson(singleUnspentOutputResponse)));
 
+        String uxtoExplorerResponse = "{\"outputs\":[{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"}]}";
+
         when().
                 get("/address/" + addressThatReturnsOneOutput).
                 then().
                 statusCode(200).
-                body("outputs", hasSize(1));
+                body(equalTo(uxtoExplorerResponse));
 
         WireMock.reset();
 
@@ -119,17 +122,19 @@ public class UnspentTransactionsEndpointTest {
                         "}";
 
 
-        String addressThatReturnMultipleUnspentOutputs = "3";
+        String addressThatReturnsMultipleUnspentOutputs = "3";
 
         //Stub the call being made to the blockchain api
-        stubFor(get("/unspent?active=" + addressThatReturnMultipleUnspentOutputs)
+        stubFor(get("/unspent?active=" + addressThatReturnsMultipleUnspentOutputs)
                 .willReturn(okJson(multipleUnspentOutputResponse)));
 
+        String resp = "{\"outputs\":[{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"},{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"},{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"}]}";
+
         when().
-                get("/address/" + addressThatReturnMultipleUnspentOutputs).
+                get("/address/" + addressThatReturnsMultipleUnspentOutputs).
                 then().
                 statusCode(200).
-                body("outputs", hasSize(3));
+                body(equalTo(resp));
 
         WireMock.reset();
 
