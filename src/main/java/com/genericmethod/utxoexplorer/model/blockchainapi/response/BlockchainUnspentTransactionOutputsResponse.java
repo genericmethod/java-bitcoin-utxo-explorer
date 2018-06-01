@@ -1,4 +1,4 @@
-package com.genericmethod.utxoexplorer.model.response;
+package com.genericmethod.utxoexplorer.model.blockchainapi.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,17 +8,21 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
 
-public class UnspentTransactionOutputsResponse {
+public class BlockchainUnspentTransactionOutputsResponse {
 
     @SerializedName("unspent_outputs")
     @Expose
-    private List<UnspentOutput> unspentOutputs = null;
+    private List<BlockchainUnspentOutput> unspentOutputs = null;
 
-    public List<UnspentOutput> getUnspentOutputs() {
+    public BlockchainUnspentTransactionOutputsResponse(List<BlockchainUnspentOutput> unspentOutputs) {
+        this.unspentOutputs = unspentOutputs;
+    }
+
+    public List<BlockchainUnspentOutput> getUnspentOutputs() {
         return unspentOutputs;
     }
 
-    public void setUnspentOutputs(List<UnspentOutput> unspentOutputs) {
+    public void setUnspentOutputs(List<BlockchainUnspentOutput> unspentOutputs) {
         this.unspentOutputs = unspentOutputs;
     }
 
@@ -37,10 +41,10 @@ public class UnspentTransactionOutputsResponse {
         if (other == this) {
             return true;
         }
-        if ((other instanceof UnspentTransactionOutputsResponse) == false) {
+        if ((other instanceof BlockchainUnspentTransactionOutputsResponse) == false) {
             return false;
         }
-        UnspentTransactionOutputsResponse rhs = ((UnspentTransactionOutputsResponse) other);
+        BlockchainUnspentTransactionOutputsResponse rhs = ((BlockchainUnspentTransactionOutputsResponse) other);
         return new EqualsBuilder().append(unspentOutputs, rhs.unspentOutputs).isEquals();
     }
 

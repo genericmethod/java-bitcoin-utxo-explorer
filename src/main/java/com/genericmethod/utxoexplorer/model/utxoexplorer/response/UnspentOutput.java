@@ -1,4 +1,4 @@
-package com.genericmethod.utxoexplorer.model.response;
+package com.genericmethod.utxoexplorer.model.utxoexplorer.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,36 +8,22 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class UnspentOutput {
 
-    @SerializedName("tx_age")
-    @Expose
-    private String txAge;
-
     @SerializedName("tx_hash")
     @Expose
     private String txHash;
-
-    @SerializedName("tx_index")
-    @Expose
-    private String txIndex;
 
     @SerializedName("tx_output_n")
     @Expose
     private String txOutputN;
 
-    @SerializedName("script")
-    @Expose
-    private String script;
-
     @SerializedName("value")
     @Expose
     private String value;
 
-    public String getTxAge() {
-        return txAge;
-    }
-
-    public void setTxAge(String txAge) {
-        this.txAge = txAge;
+    public UnspentOutput(String txHash, String txOutputN, String value) {
+        this.txHash = txHash;
+        this.txOutputN = txOutputN;
+        this.value = value;
     }
 
     public String getTxHash() {
@@ -48,28 +34,12 @@ public class UnspentOutput {
         this.txHash = txHash;
     }
 
-    public String getTxIndex() {
-        return txIndex;
-    }
-
-    public void setTxIndex(String txIndex) {
-        this.txIndex = txIndex;
-    }
-
     public String getTxOutputN() {
         return txOutputN;
     }
 
     public void setTxOutputN(String txOutputN) {
         this.txOutputN = txOutputN;
-    }
-
-    public String getScript() {
-        return script;
-    }
-
-    public void setScript(String script) {
-        this.script = script;
     }
 
     public String getValue() {
@@ -83,11 +53,8 @@ public class UnspentOutput {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("txAge", txAge)
                 .append("txHash", txHash)
-                .append("txIndex", txIndex)
                 .append("txOutputN", txOutputN)
-                .append("script", script)
                 .append("value", value)
                 .toString();
     }
@@ -96,9 +63,9 @@ public class UnspentOutput {
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(txOutputN)
-                .append(txAge).append(value)
-                .append(txHash).append(txIndex)
-                .append(script).toHashCode();
+                .append(value)
+                .append(txHash)
+                .toHashCode();
     }
 
     @Override
@@ -110,7 +77,10 @@ public class UnspentOutput {
             return false;
         }
         UnspentOutput rhs = ((UnspentOutput) other);
-        return new EqualsBuilder().append(txOutputN, rhs.txOutputN).append(txAge, rhs.txAge).append(value, rhs.value).append(txHash, rhs.txHash).append(txIndex, rhs.txIndex).append(script, rhs.script).isEquals();
+        return new EqualsBuilder().append(txOutputN, rhs.txOutputN)
+                .append(value, rhs.value)
+                .append(txHash, rhs.txHash)
+                .isEquals();
     }
 
 }
