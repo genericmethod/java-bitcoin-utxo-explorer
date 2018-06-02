@@ -30,15 +30,18 @@ public class UnspentTransactionsEndpointTest {
         String validAddress = "1MDUoxL1bGvMxhuoDYx6i11ePytECAk9QK";
 
         //Stub the call being made to the blockchain api
-        stubFor(get("/unspent?active="+validAddress)
+        stubFor(get("/unspent?active=" + validAddress)
                 .willReturn(aResponse()
                         .withStatus(500)));
 
         when().
-                get("http://localhost:4567/address/"+ validAddress).
+                get("http://localhost:4567/address/" + validAddress).
                 then().
                 statusCode(400).
                 body(equalTo("Call to blockchain api failed - reason:Server Error"));
+
+        //verify that the call has been made to the api
+        verify(getRequestedFor(urlEqualTo("/unspent?active=" + validAddress)));
 
     }
 
@@ -66,16 +69,20 @@ public class UnspentTransactionsEndpointTest {
         String addressThatReturnsEmptyArray = "1MDUoxL1bGvMxhuoDYx6i11ePytECAk9QK";
 
         //Stub the call being made to the blockchain api
-        stubFor(get("/unspent?active="+addressThatReturnsEmptyArray)
+        stubFor(get("/unspent?active=" + addressThatReturnsEmptyArray)
                 .willReturn(okJson(noUnspentOutputResponse)));
 
         String resp = "{\"outputs\":[]}";
+
 
         when().
                 get("http://localhost:4567/address/" + addressThatReturnsEmptyArray).
                 then().
                 statusCode(200).
                 body(equalTo(resp));
+
+        //verify that the call has been made to the api
+        verify(getRequestedFor(urlEqualTo("/unspent?active="+addressThatReturnsEmptyArray)));
 
         WireMock.reset();
 
@@ -111,6 +118,8 @@ public class UnspentTransactionsEndpointTest {
                 then().
                 statusCode(200).
                 body(equalTo(uxtoExplorerResponse));
+
+        verify(getRequestedFor(urlEqualTo("/unspent?active="+addressThatReturnsOneOutput)));
 
         WireMock.reset();
     }
@@ -162,6 +171,8 @@ public class UnspentTransactionsEndpointTest {
                 then().
                 statusCode(200).
                 body(equalTo(resp));
+
+        verify(getRequestedFor(urlEqualTo("/unspent?active="+addressThatReturnsMultipleUnspentOutputs)));
 
         WireMock.reset();
     }
