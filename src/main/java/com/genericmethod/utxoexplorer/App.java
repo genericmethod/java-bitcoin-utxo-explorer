@@ -29,7 +29,6 @@ public class App {
         Gson gson = new Gson();
 
         get("/healthcheck", (req, res) -> "OK");
-
         get("/address/:bitcoin_address", (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
 
     }
