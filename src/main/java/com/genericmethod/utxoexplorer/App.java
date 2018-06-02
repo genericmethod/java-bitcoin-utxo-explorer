@@ -1,12 +1,8 @@
 package com.genericmethod.utxoexplorer;
 
 import com.genericmethod.utxoexplorer.api.UnspentTransactionApi;
-import com.genericmethod.utxoexplorer.model.blockchainapi.response.BlockchainUnspentTransactionOutputsResponse;
-import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentTransactionOutputsResponse;
-import com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
-import static spark.Spark.stop;
 
 
 public class App {
@@ -27,10 +23,8 @@ public class App {
 
         log.info("Starting UXTOExplorer ... ");
 
-        Gson gson = new Gson();
-
-        get("/healthcheck", (req, res) -> "OK");
-        get("/address/:bitcoin_address", (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
+        get(Path.HEALTHCHECK, (req, res) -> "OK");
+        get(Path.UNSPENT_TRANSACTIONS, (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
 
         log.info("UXTOExplorer has started ...");
     }
