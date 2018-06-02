@@ -1,2 +1,2 @@
 # java-bitcoin-utxo-explorer
-A tiny API to expore unspent bitcoin transactions
+A tiny API to explore unspent bitcoin transactions
