@@ -11,8 +11,7 @@ import java.util.List;
 public class BlockchainUnspentTransactionOutputsResponse {
 
     @SerializedName("unspent_outputs")
-    @Expose
-    private List<BlockchainUnspentOutput> unspentOutputs = null;
+    private final List<BlockchainUnspentOutput> unspentOutputs;
 
     public BlockchainUnspentTransactionOutputsResponse(List<BlockchainUnspentOutput> unspentOutputs) {
         this.unspentOutputs = unspentOutputs;
@@ -20,10 +19,6 @@ public class BlockchainUnspentTransactionOutputsResponse {
 
     public List<BlockchainUnspentOutput> getUnspentOutputs() {
         return unspentOutputs;
-    }
-
-    public void setUnspentOutputs(List<BlockchainUnspentOutput> unspentOutputs) {
-        this.unspentOutputs = unspentOutputs;
     }
 
     @Override

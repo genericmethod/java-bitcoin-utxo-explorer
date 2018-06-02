@@ -9,75 +9,54 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class BlockchainUnspentOutput {
 
     @SerializedName("tx_age")
-    @Expose
-    private String txAge;
+    private final String txAge;
 
     @SerializedName("tx_hash")
-    @Expose
-    private String txHash;
+    private final String txHash;
 
     @SerializedName("tx_index")
-    @Expose
-    private String txIndex;
+    private final String txIndex;
 
     @SerializedName("tx_output_n")
-    @Expose
-    private String txOutputN;
+    private final String txOutputN;
 
     @SerializedName("script")
-    @Expose
-    private String script;
+    private final String script;
 
     @SerializedName("value")
-    @Expose
-    private String value;
+    private final String value;
+
+    public BlockchainUnspentOutput(String txAge,
+                                   String txHash,
+                                   String txIndex,
+                                   String txOutputN,
+                                   String script,
+                                   String value) {
+        this.txAge = txAge;
+        this.txHash = txHash;
+        this.txIndex = txIndex;
+        this.txOutputN = txOutputN;
+        this.script = script;
+        this.value = value;
+    }
 
     public String getTxAge() {
         return txAge;
     }
-
-    public void setTxAge(String txAge) {
-        this.txAge = txAge;
-    }
-
     public String getTxHash() {
         return txHash;
     }
-
-    public void setTxHash(String txHash) {
-        this.txHash = txHash;
-    }
-
     public String getTxIndex() {
         return txIndex;
     }
-
-    public void setTxIndex(String txIndex) {
-        this.txIndex = txIndex;
-    }
-
     public String getTxOutputN() {
         return txOutputN;
     }
-
-    public void setTxOutputN(String txOutputN) {
-        this.txOutputN = txOutputN;
-    }
-
     public String getScript() {
         return script;
     }
-
-    public void setScript(String script) {
-        this.script = script;
-    }
-
     public String getValue() {
         return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     @Override

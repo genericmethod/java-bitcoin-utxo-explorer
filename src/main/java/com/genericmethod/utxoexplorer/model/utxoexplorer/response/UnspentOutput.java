@@ -9,16 +9,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class UnspentOutput {
 
     @SerializedName("tx_hash")
-    @Expose
-    private String txHash;
+    private final String txHash;
 
     @SerializedName("tx_output_n")
-    @Expose
-    private String txOutputN;
+    private final String txOutputN;
 
     @SerializedName("value")
-    @Expose
-    private String value;
+    private final String value;
 
     public UnspentOutput(String txHash, String txOutputN, String value) {
         this.txHash = txHash;
@@ -29,25 +26,11 @@ public class UnspentOutput {
     public String getTxHash() {
         return txHash;
     }
-
-    public void setTxHash(String txHash) {
-        this.txHash = txHash;
-    }
-
     public String getTxOutputN() {
         return txOutputN;
     }
-
-    public void setTxOutputN(String txOutputN) {
-        this.txOutputN = txOutputN;
-    }
-
     public String getValue() {
         return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     @Override

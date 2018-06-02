@@ -12,11 +12,7 @@ import java.util.List;
 public class UnspentTransactionOutputsResponse {
 
     @SerializedName("outputs")
-    @Expose
-    private List<UnspentOutput> outputs = null;
-
-    public UnspentTransactionOutputsResponse() {
-    }
+    private final List<UnspentOutput> outputs;
 
     public UnspentTransactionOutputsResponse(List<UnspentOutput> outputs) {
         this.outputs = outputs;
@@ -24,10 +20,6 @@ public class UnspentTransactionOutputsResponse {
 
     public List<UnspentOutput> getOutputs() {
         return outputs;
-    }
-
-    public void setOutputs(List<UnspentOutput> outputs) {
-        this.outputs = outputs;
     }
 
     @Override
