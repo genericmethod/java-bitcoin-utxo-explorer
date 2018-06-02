@@ -3,10 +3,12 @@ import com.genericmethod.utxoexplorer.App;
 import com.genericmethod.utxoexplorer.api.UnspentTransactionApi;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import io.restassured.RestAssured;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
+import spark.Service;
+import spark.Spark;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.when;
@@ -14,14 +16,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class UnspentTransactionsEndpointTest {
 
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(8089);
+    @ClassRule
+    public static WireMockRule wireMockRule = new WireMockRule(8089);
 
     @BeforeClass
     public static void setup() {
         App app = new App(new UnspentTransactionApi("localhost","8089"));
         app.start();
-        RestAssured.port = 4567;
     }
 
     @Test
@@ -35,10 +36,10 @@ public class UnspentTransactionsEndpointTest {
                         .withStatus(500)));
 
         when().
-                get("/address/" + validAddress).
+                get("http://localhost:4567/address/" + validAddress).
                 then().
                 statusCode(400).
-                body(equalTo("Call to blockchain api failed for the following reason:Server Error"));
+                body(equalTo("Call to blockchain api failed - reason:Server Error"));
 
     }
 
@@ -48,10 +49,10 @@ public class UnspentTransactionsEndpointTest {
         String invalidAddress = "elon_musk_is_satoshi_nakamoto";
 
         when().
-                get("/address/" + invalidAddress).
+                get("http://localhost:4567/address/" + invalidAddress).
                 then().
                 statusCode(422).
-                body(equalTo("Address format should be Base58 address:elon_musk_is_satoshi_nakamoto"));
+                body(equalTo("Address format should be Base58 - address:elon_musk_is_satoshi_nakamoto"));
 
     }
 
@@ -72,7 +73,7 @@ public class UnspentTransactionsEndpointTest {
         String resp = "{\"outputs\":[]}";
 
         when().
-                get("/address/" + addressThatReturnsEmptyArray).
+                get("http://localhost:4567/address/" + addressThatReturnsEmptyArray).
                 then().
                 statusCode(200).
                 body(equalTo(resp));
@@ -107,7 +108,7 @@ public class UnspentTransactionsEndpointTest {
         String uxtoExplorerResponse = "{\"outputs\":[{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"}]}";
 
         when().
-                get("/address/" + addressThatReturnsOneOutput).
+                get("http://localhost:4567/address/" + addressThatReturnsOneOutput).
                 then().
                 statusCode(200).
                 body(equalTo(uxtoExplorerResponse));
@@ -160,13 +161,17 @@ public class UnspentTransactionsEndpointTest {
         String resp = "{\"outputs\":[{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"},{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"},{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"}]}";
 
         when().
-                get("/address/" + addressThatReturnsMultipleUnspentOutputs).
+                get("http://localhost:4567/address/" + addressThatReturnsMultipleUnspentOutputs).
                 then().
                 statusCode(200).
                 body(equalTo(resp));
 
         WireMock.reset();
+    }
 
+    @AfterClass
+    public static void teardown(){
+        Spark.stop();
     }
 
 }

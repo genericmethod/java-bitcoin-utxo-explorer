@@ -6,6 +6,7 @@ import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentTransac
 import com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import static spark.Spark.get;
+import static spark.Spark.stop;
 
 
 public class App {
@@ -24,12 +25,18 @@ public class App {
 
     public void start () {
 
-        log.info("Starting Server");
+        log.info("Starting UXTOExplorer ... ");
 
         Gson gson = new Gson();
 
         get("/healthcheck", (req, res) -> "OK");
         get("/address/:bitcoin_address", (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
 
+        log.info("UXTOExplorer has started ...");
+    }
+
+    public static void main(String[] args) {
+        App app = new App();
+        app.start();
     }
 }
