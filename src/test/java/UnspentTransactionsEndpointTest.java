@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-import spark.Service;
 import spark.Spark;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -36,7 +35,7 @@ public class UnspentTransactionsEndpointTest {
                         .withStatus(500)));
 
         when().
-                get("http://localhost:4567/address/" + validAddress).
+                get("http://localhost:4567/address/"+ validAddress).
                 then().
                 statusCode(400).
                 body(equalTo("Call to blockchain api failed - reason:Server Error"));
@@ -114,8 +113,6 @@ public class UnspentTransactionsEndpointTest {
                 body(equalTo(uxtoExplorerResponse));
 
         WireMock.reset();
-
-
     }
 
     @Test

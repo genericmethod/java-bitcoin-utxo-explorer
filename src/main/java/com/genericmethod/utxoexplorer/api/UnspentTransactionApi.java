@@ -2,6 +2,7 @@ package com.genericmethod.utxoexplorer.api;
 
 import com.genericmethod.utxoexplorer.App;
 import com.genericmethod.utxoexplorer.HttpStatusEnum;
+import com.genericmethod.utxoexplorer.Path;
 import com.genericmethod.utxoexplorer.model.blockchainapi.response.BlockchainUnspentTransactionOutputsResponse;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentOutput;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentTransactionOutputsResponse;
@@ -28,7 +29,7 @@ public class UnspentTransactionApi {
 
     public UnspentTransactionApi() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://blockchain.info")
+                .baseUrl(Path.BlockchainApi.URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

@@ -23,8 +23,8 @@ public class App {
 
         log.info("Starting UXTOExplorer ... ");
 
-        get(Path.HEALTHCHECK, (req, res) -> "OK");
-        get(Path.UNSPENT_TRANSACTIONS, (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
+        get(Path.Api.HEALTHCHECK, (req, res) -> "OK");
+        get(Path.Api.GET_UNSPENT_TRANSACTIONS, (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
 
         log.info("UXTOExplorer has started ...");
     }
