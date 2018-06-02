@@ -18,22 +18,19 @@ public class App {
         unspentTransactionApi = new UnspentTransactionApi();
     }
 
+    public App(UnspentTransactionApi unspentTransactionApi){
+        this.unspentTransactionApi = unspentTransactionApi;
+    }
+
     public void start () {
 
         log.info("Starting Server");
+
         Gson gson = new Gson();
+
         get("/healthcheck", (req, res) -> "OK");
-        get("/address/:bitcoin_address", (req, res) -> {
 
-            //get path parameter
-            final String bitcoin_address = req.params(":bitcoin_address");
-
-            //call blockchain api
-            final UnspentTransactionOutputsResponse unspentTransactions = unspentTransactionApi.getUnspentTransactions(bitcoin_address);
-
-            //return results
-            return unspentTransactions;
-        }, gson::toJson);
+        get("/address/:bitcoin_address", (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
 
     }
 }

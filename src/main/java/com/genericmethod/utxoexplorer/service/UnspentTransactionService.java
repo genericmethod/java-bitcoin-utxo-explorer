@@ -7,8 +7,7 @@ import retrofit2.http.Query;
 
 public interface UnspentTransactionService {
 
-    //https://blockchain.info/unspent?active=$address
     @GET("/unspent")
-    Call<BlockchainUnspentTransactionOutputsResponse> getUnspentTransationOutputs(@Query("active") String address);
+    Call<BlockchainUnspentTransactionOutputsResponse> getUnspentTransactionOutputs(@Query("active") String address);
 
 }

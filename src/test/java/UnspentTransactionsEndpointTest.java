@@ -1,5 +1,6 @@
 
 import com.genericmethod.utxoexplorer.App;
+import com.genericmethod.utxoexplorer.api.UnspentTransactionApi;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import io.restassured.RestAssured;
@@ -7,12 +8,9 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 
 public class UnspentTransactionsEndpointTest {
 
@@ -21,9 +19,40 @@ public class UnspentTransactionsEndpointTest {
 
     @BeforeClass
     public static void setup() {
-        App app = new App();
+        App app = new App(new UnspentTransactionApi("localhost","8089"));
         app.start();
         RestAssured.port = 4567;
+    }
+
+    @Test
+    public void testBlockchainApiUnavailable(){
+
+        String validAddress = "1MDUoxL1bGvMxhuoDYx6i11ePytECAk9QK";
+
+        //Stub the call being made to the blockchain api
+        stubFor(get("/unspent?active="+validAddress)
+                .willReturn(aResponse()
+                        .withStatus(500)));
+
+        when().
+                get("/address/" + validAddress).
+                then().
+                statusCode(400).
+                body(equalTo("Call to blockchain api failed for the following reason:Server Error"));
+
+    }
+
+    @Test
+    public void testInvalidAddress(){
+
+        String invalidAddress = "elon_musk_is_satoshi_nakamoto";
+
+        when().
+                get("/address/" + invalidAddress).
+                then().
+                statusCode(422).
+                body(equalTo("Address format should be Base58 address:elon_musk_is_satoshi_nakamoto"));
+
     }
 
     @Test
@@ -34,7 +63,7 @@ public class UnspentTransactionsEndpointTest {
                 "  \"unspent_outputs\":[]\n" +
                 "}";
 
-        String addressThatReturnsEmptyArray = "1";
+        String addressThatReturnsEmptyArray = "1MDUoxL1bGvMxhuoDYx6i11ePytECAk9QK";
 
         //Stub the call being made to the blockchain api
         stubFor(get("/unspent?active="+addressThatReturnsEmptyArray)
@@ -69,7 +98,7 @@ public class UnspentTransactionsEndpointTest {
                         "  ]\n" +
                         "}";
 
-        String addressThatReturnsOneOutput = "2";
+        String addressThatReturnsOneOutput = "1NU7uRQHYYCmchJCAJcsb8bbGNEeoynQDN";
 
         //Stub the call being made to the blockchain api
         stubFor(get("/unspent?active=" + addressThatReturnsOneOutput)
@@ -122,7 +151,7 @@ public class UnspentTransactionsEndpointTest {
                         "}";
 
 
-        String addressThatReturnsMultipleUnspentOutputs = "3";
+        String addressThatReturnsMultipleUnspentOutputs = "17A16QmavnUfCW11DAApiJxp7ARnxN5pGX";
 
         //Stub the call being made to the blockchain api
         stubFor(get("/unspent?active=" + addressThatReturnsMultipleUnspentOutputs)
