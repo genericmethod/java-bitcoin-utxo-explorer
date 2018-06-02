@@ -1,6 +1,7 @@
 package com.genericmethod.utxoexplorer.api;
 
 import com.genericmethod.utxoexplorer.App;
+import com.genericmethod.utxoexplorer.HttpStatusEnum;
 import com.genericmethod.utxoexplorer.model.blockchainapi.response.BlockchainUnspentTransactionOutputsResponse;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentOutput;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentTransactionOutputsResponse;
@@ -43,7 +44,7 @@ public class UnspentTransactionApi {
 
         String address = request.params(":bitcoin_address");
 
-        log.info(String.format("Calling getUnspentTransactions - address%s", address));
+        log.info(String.format("Calling getUnspentTransactions - address:%s", address));
 
         try {
 
@@ -52,7 +53,7 @@ public class UnspentTransactionApi {
 
         } catch (AddressFormatException afex) {
             log.info(String.format("Address format should be Base58 - address:%s", address));
-            response.status(422);
+            response.status(HttpStatusEnum.UNPROCESSABLE_ENTITY.getCode());
             return String.format("Address format should be Base58 - address:%s", address);
         }
 
@@ -61,13 +62,13 @@ public class UnspentTransactionApi {
         final Call<BlockchainUnspentTransactionOutputsResponse> unspentTransactionOutputs =
                 service.getUnspentTransactionOutputs(address);
 
-        log.info("Calling Blockchain API");
+        log.info("Calling Blockchain API - unspent endpoint");
         final retrofit2.Response<BlockchainUnspentTransactionOutputsResponse> unspentTransactionsResponse =
                 unspentTransactionOutputs.execute();
 
         if (unspentTransactionsResponse.isSuccessful()) {
 
-            log.info("Blockchain API called successfully");
+            log.info("Blockchain API called successfully - unspent endpoint");
 
             List<UnspentOutput> unspentOutputList =
                     unspentTransactionsResponse.body().getUnspentOutputs().stream()
@@ -77,7 +78,7 @@ public class UnspentTransactionApi {
             UnspentTransactionOutputsResponse unspentTransactionOutputsResponse =
                     new UnspentTransactionOutputsResponse(unspentOutputList);
 
-            response.status(200);
+            response.status(HttpStatusEnum.OK.getCode());
             return new Gson().toJson(unspentTransactionOutputsResponse);
 
         } else {
@@ -86,7 +87,7 @@ public class UnspentTransactionApi {
                     unspentTransactionsResponse.code(),
                     unspentTransactionsResponse.errorBody().string()));
 
-            response.status(400);
+            response.status(HttpStatusEnum.BAD_REQUEST.getCode());
             return String.format("Call to blockchain api failed - reason:%s",
                     unspentTransactionsResponse.message());
         }
