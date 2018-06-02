@@ -3,7 +3,25 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'App'
+mainClassName = 'com.genericmethod.utxoexplorer.App'
+
+version '1.0-SNAPSHOT'
+
+jar {
+
+    manifest {
+        attributes 'Implementation-Title': 'utxoexplorer',
+                'Implementation-Version': version,
+                'Main-Class': 'com.genericmethod.utxoexplorer.App'
+    }
+
+    from({configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}) {
+        // remove all signature files
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+}
 
 dependencies {
     compile 'com.google.guava:guava:23.0'
@@ -24,12 +42,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.1'
 
     compile 'org.bitcoinj:bitcoinj-core:0.14.7'
-}
-
-
-
-test {
-    exclude '**/**'
 }
 
 repositories {
