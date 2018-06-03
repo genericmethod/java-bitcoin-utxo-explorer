@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 public class UnspentTransactionApi {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(App.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(UnspentTransactionApi.class);
 
     private Retrofit retrofit;
 
