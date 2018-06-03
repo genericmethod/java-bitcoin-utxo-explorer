@@ -24,7 +24,7 @@ git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git && cd 
 ```
 
 
-# Endpoints
+# API Endpoints
 
 ```
 - GET /address/:bitcoin_address - get all unspent transactions
