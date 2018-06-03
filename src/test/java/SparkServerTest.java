@@ -10,15 +10,16 @@ import spark.Spark;
 
 public class SparkServerTest {
 
-    private static final Integer port = 8089;
-    private static final String host = "localhost";
+    private static final Integer WIREMOCK_PORT = 8089;
+    public static final String API_BASE_URL = "http://localhost:8080";
+    public static final String BLOCKCHAIN_API_BASE_URL = "http://localhost:8089";
 
     @ClassRule
-    public static WireMockRule wireMockRule = new WireMockRule(port);
+    public static WireMockRule wireMockRule = new WireMockRule(WIREMOCK_PORT);
 
     @BeforeClass
     public static void setup() {
-        App app = new App(new UnspentTransactionApi(host, port.toString()));
+        App app = new App(new UnspentTransactionApi(BLOCKCHAIN_API_BASE_URL));
         app.start();
     }
 

@@ -25,8 +25,7 @@ public class App {
 
         log.info("Starting UXTOExplorer ... ");
 
-        //TODO move port into config
-        Spark.port(8080);
+        Spark.port(AppConfig.API_PORT);
 
         get(Path.Api.HEALTHCHECK, (req, res) -> "OK");
         get(Path.Api.GET_UNSPENT_TRANSACTIONS, (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));

@@ -15,9 +15,9 @@ public abstract class BaseApi {
                 .build();
     }
 
-    public BaseApi(String host, String port) {
+    public BaseApi(String baseUrl) {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://" + host + ":" + port)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

@@ -24,8 +24,8 @@ public class UnspentTransactionApi extends BaseApi {
 
     public UnspentTransactionApi() {}
 
-    public UnspentTransactionApi(String host, String port) {
-        super(host, port);
+    public UnspentTransactionApi(String baseUrl) {
+        super(baseUrl);
     }
 
     public Object getUnspentTransactions(Request request, Response response) throws IOException {
@@ -71,11 +71,11 @@ public class UnspentTransactionApi extends BaseApi {
 
         } else {
             //The blockchain api /unspent endpoint returns status code 500
-            // and the message "No free outputs to spend" when there are no unspent outputs
+            //and the message "No free outputs to spend" when there are no unspent outputs
             //or the endpoint is used incorrectly.
             //This is being mapped to status code 200 and returning an empty array.
-            //In this way we are representing "No free outputs to spend" as a data structure rather than
-            //a message.
+            //In this way we are representing "No free outputs to spend" as a
+            // data structure rather than a message.
             log.info(String.format("No unspent outputs found - address:%s", address));
 
             response.status(HttpStatusEnum.OK.getCode());
