@@ -33,8 +33,6 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
         //verify that the call has been made to the api
         verify(getRequestedFor(urlEqualTo("/unspent?active=" + validAddress)));
 
-        WireMock.reset();
-
     }
 
     @Test
@@ -75,8 +73,6 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
 
         //verify that the call has been made to the api
         verify(getRequestedFor(urlEqualTo("/unspent?active="+addressThatReturnsEmptyArray)));
-
-        WireMock.reset();
 
     }
 
@@ -165,8 +161,6 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
                 body(equalTo(resp));
 
         verify(getRequestedFor(urlEqualTo("/unspent?active="+addressThatReturnsMultipleUnspentOutputs)));
-
-        WireMock.reset();
     }
 
 }

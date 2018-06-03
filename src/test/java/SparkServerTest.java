@@ -1,6 +1,8 @@
 import com.genericmethod.utxoexplorer.App;
 import com.genericmethod.utxoexplorer.api.UnspentTransactionApi;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
@@ -18,6 +20,11 @@ public class SparkServerTest {
     public static void setup() {
         App app = new App(new UnspentTransactionApi(host, port.toString()));
         app.start();
+    }
+
+    @After
+    public void reset(){
+        WireMock.reset();
     }
 
     @AfterClass
