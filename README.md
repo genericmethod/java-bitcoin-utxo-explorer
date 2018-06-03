@@ -35,7 +35,6 @@ git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git && cd 
 ```
 - GET /address/:bitcoin_address - get all unspent transactions
 - GET /healthcheck - ping the server for health
-
 ```
 
 ## Http Status Code Summary
@@ -76,7 +75,7 @@ GET /address/1MHH6FcZNwN4vvNfbSzjHQ85c8kABiJ7Lu
 
 200
 
-##Notes
+## Notes
 
 Server starts on port *8080*
 
