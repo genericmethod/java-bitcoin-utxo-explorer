@@ -25,6 +25,7 @@ public class App {
 
         log.info("Starting UXTOExplorer ... ");
 
+        //TODO move port into config
         Spark.port(8080);
 
         get(Path.Api.HEALTHCHECK, (req, res) -> "OK");
