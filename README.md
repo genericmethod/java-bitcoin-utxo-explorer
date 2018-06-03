@@ -13,12 +13,15 @@ A tiny API to explore unspent bitcoin transactions
 Server can be started by cloning this git repo, using gradle to build the project and executing
 the generated jar file.
 
+Clone this git repo
 ```
 git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git
 ```
+Build using gradle
 ```
 ./gradlew build
 ```
+Excute JAR
 ```
 java -jar build/libs/java-bitcoin-utxo-explorer-1.0-SNAPSHOT.jar
 ```
