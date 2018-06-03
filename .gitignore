@@ -77,5 +77,4 @@ fabric.properties
 /.gradle/
 /.idea/
 /build/
-/gradle/
 !/out/
