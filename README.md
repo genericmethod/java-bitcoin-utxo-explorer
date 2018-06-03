@@ -24,6 +24,7 @@ or just run this single command
 git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git && cd java-bitcoin-utxo-explorer  && ./gradlew build && java -jar build/libs/java-bitcoin-utxo-explorer-1.0-SNAPSHOT.jar
 ```
 
+Server starts on port *8080*
 
 # API Endpoints
 
