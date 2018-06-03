@@ -70,13 +70,5 @@ GET /address/1MHH6FcZNwN4vvNfbSzjHQ85c8kABiJ7Lu
 200
 
 
-## Next Steps
-
--
-
-
-
-
-
 
 
