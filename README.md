@@ -5,6 +5,7 @@ A tiny API to explore unspent bitcoin transactions
 - Built with Java 8 / Spark Web framework and bitcoinj
 - Tested with Wiremock and Rest-Assured.
 - Requires Gradle
+- Uses the Blockchain.info API as a data source
 
 
 ## Usage
@@ -44,6 +45,7 @@ git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git && cd 
 ## Address Resources
 
 ## GET /address/:bitcoin_address
+Returns all unspent transaction outputs for a bitcoin address.
 
 ##### Example
 
