@@ -56,10 +56,11 @@ Returns all unspent transaction outputs for a bitcoin address.
 ##### Request
 
 ```
-GET /address/1MHH6FcZNwN4vvNfbSzjHQ85c8kABiJ7Lu
+GET http:localhost:8080/address/1MHH6FcZNwN4vvNfbSzjHQ85c8kABiJ7Lu
 ```
 
-##### Response
+##### Success Response
+
 ```
 {
   "outputs":[
@@ -71,6 +72,7 @@ GET /address/1MHH6FcZNwN4vvNfbSzjHQ85c8kABiJ7Lu
   ]
 }
 ```
+
 ##### Status
 
 200
