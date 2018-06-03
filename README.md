@@ -41,7 +41,7 @@ git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git && cd 
 404 Not Found - When a non-existent resource is requested
 ```
 
-## Account Resources
+## Address Resources
 
 ## GET /address/:bitcoin_address
 
@@ -65,6 +65,10 @@ GET /address/1MHH6FcZNwN4vvNfbSzjHQ85c8kABiJ7Lu
   ]
 }
 ```
+##### Status
+
+200
+
 
 ## Next Steps
 
