@@ -1,8 +1,6 @@
 package com.genericmethod.utxoexplorer.api;
 
-import com.genericmethod.utxoexplorer.App;
 import com.genericmethod.utxoexplorer.HttpStatusEnum;
-import com.genericmethod.utxoexplorer.Path;
 import com.genericmethod.utxoexplorer.model.blockchainapi.response.BlockchainUnspentTransactionOutputsResponse;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentOutput;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentTransactionOutputsResponse;
@@ -12,8 +10,6 @@ import org.bitcoinj.core.AddressFormatException;
 import org.bitcoinj.core.Base58;
 import org.slf4j.LoggerFactory;
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import spark.Request;
 import spark.Response;
 
@@ -22,24 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UnspentTransactionApi {
+public class UnspentTransactionApi extends BaseApi {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(UnspentTransactionApi.class);
 
-    private Retrofit retrofit;
-
-    public UnspentTransactionApi() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(Path.BlockchainApi.URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
+    public UnspentTransactionApi() {}
 
     public UnspentTransactionApi(String host, String port) {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://" + host + ":" + port)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        super(host, port);
     }
 
     public Object getUnspentTransactions(Request request, Response response) throws IOException {
@@ -59,7 +45,7 @@ public class UnspentTransactionApi {
             return String.format("Address format should be Base58 - address:%s", address);
         }
 
-        UnspentTransactionService service = retrofit.create(UnspentTransactionService.class);
+        UnspentTransactionService service = getRetrofit().create(UnspentTransactionService.class);
 
         final Call<BlockchainUnspentTransactionOutputsResponse> unspentTransactionOutputs =
                 service.getUnspentTransactionOutputs(address);
