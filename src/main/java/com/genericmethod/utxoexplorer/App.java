@@ -26,7 +26,6 @@ public class App {
         get(Path.Api.HEALTHCHECK, (req, res) -> "OK");
         get(Path.Api.GET_UNSPENT_TRANSACTIONS, (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));
 
-        log.info("UXTOExplorer has started ...");
     }
 
     public static void main(String[] args) {
