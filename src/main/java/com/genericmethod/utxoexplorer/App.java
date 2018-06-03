@@ -2,6 +2,8 @@ package com.genericmethod.utxoexplorer;
 
 import com.genericmethod.utxoexplorer.api.UnspentTransactionApi;
 import org.slf4j.LoggerFactory;
+import spark.Spark;
+
 import static spark.Spark.get;
 
 
@@ -22,6 +24,8 @@ public class App {
     public void start () {
 
         log.info("Starting UXTOExplorer ... ");
+
+        Spark.port(8080);
 
         get(Path.Api.HEALTHCHECK, (req, res) -> "OK");
         get(Path.Api.GET_UNSPENT_TRANSACTIONS, (req, res) -> unspentTransactionApi.getUnspentTransactions(req, res));

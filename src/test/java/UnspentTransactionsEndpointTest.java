@@ -25,7 +25,7 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
         String resp = "{\"outputs\":[]}";
 
         when().
-                get("http://localhost:4567/address/" + validAddress).
+                get("http://localhost:8080/address/" + validAddress).
                 then().
                 statusCode(200).
                 body(equalTo(resp));
@@ -41,7 +41,7 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
         String invalidAddress = "elon_musk_is_satoshi_nakamoto";
 
         when().
-                get("http://localhost:4567/address/" + invalidAddress).
+                get("http://localhost:8080/address/" + invalidAddress).
                 then().
                 statusCode(422).
                 body(equalTo("Address format should be Base58 - address:elon_musk_is_satoshi_nakamoto"));
@@ -66,7 +66,7 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
 
 
         when().
-                get("http://localhost:4567/address/" + addressThatReturnsEmptyArray).
+                get("http://localhost:8080/address/" + addressThatReturnsEmptyArray).
                 then().
                 statusCode(200).
                 body(equalTo(resp));
@@ -102,7 +102,7 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
         String uxtoExplorerResponse = "{\"outputs\":[{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"}]}";
 
         when().
-                get("http://localhost:4567/address/" + addressThatReturnsOneOutput).
+                get("http://localhost:8080/address/" + addressThatReturnsOneOutput).
                 then().
                 statusCode(200).
                 body(equalTo(uxtoExplorerResponse));
@@ -155,7 +155,7 @@ public class UnspentTransactionsEndpointTest extends SparkServerTest {
         String resp = "{\"outputs\":[{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"},{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"},{\"tx_hash\":\"e6452a2cb71aa864aaa959e647e7a4726a22e640560f199f79b56b5502114c37\",\"tx_output_n\":\"0\",\"value\":\"5000661330\"}]}";
 
         when().
-                get("http://localhost:4567/address/" + addressThatReturnsMultipleUnspentOutputs).
+                get("http://localhost:8080/address/" + addressThatReturnsMultipleUnspentOutputs).
                 then().
                 statusCode(200).
                 body(equalTo(resp));

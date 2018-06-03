@@ -13,7 +13,7 @@ public class HealthCheckTest extends SparkServerTest {
     @Test
     public void testHealthCheck() {
         given().
-        when().get("http://localhost:4567/healthcheck")
+        when().get("http://localhost:8080/healthcheck")
                 .then()
                 .body(equalTo("OK"))
                 .statusCode(200);
