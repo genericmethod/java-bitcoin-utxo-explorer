@@ -88,7 +88,14 @@ public class BlockchainUnspentOutput {
             return false;
         }
         BlockchainUnspentOutput rhs = ((BlockchainUnspentOutput) other);
-        return new EqualsBuilder().append(txOutputN, rhs.txOutputN).append(txAge, rhs.txAge).append(value, rhs.value).append(txHash, rhs.txHash).append(txIndex, rhs.txIndex).append(script, rhs.script).isEquals();
+        return new EqualsBuilder()
+                .append(txOutputN, rhs.txOutputN)
+                .append(txAge, rhs.txAge)
+                .append(value, rhs.value)
+                .append(txHash, rhs.txHash)
+                .append(txIndex, rhs.txIndex)
+                .append(script, rhs.script)
+                .isEquals();
     }
 
 }
