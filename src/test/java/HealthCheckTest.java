@@ -8,13 +8,7 @@ import spark.Spark;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class HealthCheckTest {
-
-    @BeforeClass
-    public static void setup() {
-        App app = new App(new UnspentTransactionApi("localhost","8089"));
-        app.start();
-    }
+public class HealthCheckTest extends SparkServerTest {
 
     @Test
     public void testHealthCheck() {
@@ -25,8 +19,4 @@ public class HealthCheckTest {
                 .statusCode(200);
     }
 
-    @AfterClass
-    public static void teardown(){
-        Spark.stop();
-    }
 }

@@ -18,6 +18,7 @@ import spark.Request;
 import spark.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,16 +84,17 @@ public class UnspentTransactionApi {
             return new Gson().toJson(unspentTransactionOutputsResponse);
 
         } else {
+            //The blockchain api /unspent endpoint returns status code 500
+            // and the message "No free outputs to spend" when there are no unspent outputs
+            //or the endpoint is used incorrectly.
+            //This is being mapped to status code 200 and returning an empty array.
+            //In this way we are representing "No free outputs to spend" as a data structure rather than
+            //a message.
+            log.info(String.format("No unspent outputs found - address:%s", address));
 
-            log.info(String.format("Call to blockchain api was unsuccessful - statusCode:%s message:%s",
-                    unspentTransactionsResponse.code(),
-                    unspentTransactionsResponse.errorBody().string()));
-
-            response.status(HttpStatusEnum.BAD_REQUEST.getCode());
-            return String.format("Call to blockchain api failed - reason:%s",
-                    unspentTransactionsResponse.message());
+            response.status(HttpStatusEnum.OK.getCode());
+            return new Gson().toJson(new UnspentTransactionOutputsResponse(new ArrayList<>()));
         }
-
 
     }
 }

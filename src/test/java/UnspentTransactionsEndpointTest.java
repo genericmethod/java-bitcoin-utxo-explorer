@@ -1,31 +1,19 @@
-
-import com.genericmethod.utxoexplorer.App;
-import com.genericmethod.utxoexplorer.api.UnspentTransactionApi;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Test;
-import spark.Spark;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class UnspentTransactionsEndpointTest {
+public class UnspentTransactionsEndpointTest extends SparkServerTest {
 
-    @ClassRule
-    public static WireMockRule wireMockRule = new WireMockRule(8089);
-
-    @BeforeClass
-    public static void setup() {
-        App app = new App(new UnspentTransactionApi("localhost","8089"));
-        app.start();
-    }
-
+    /**
+     * The blockchain api returns status code 500 and "No free outputs to spend"
+     * when there are no unspent outputs for a specific address.
+     * This scenario is being mapped to status code 200 and an empty output array
+     */
     @Test
-    public void testBlockchainApiUnavailable(){
+    public void testStatusCode500(){
 
         String validAddress = "1MDUoxL1bGvMxhuoDYx6i11ePytECAk9QK";
 
@@ -34,14 +22,18 @@ public class UnspentTransactionsEndpointTest {
                 .willReturn(aResponse()
                         .withStatus(500)));
 
+        String resp = "{\"outputs\":[]}";
+
         when().
                 get("http://localhost:4567/address/" + validAddress).
                 then().
-                statusCode(400).
-                body(equalTo("Call to blockchain api failed - reason:Server Error"));
+                statusCode(200).
+                body(equalTo(resp));
 
         //verify that the call has been made to the api
         verify(getRequestedFor(urlEqualTo("/unspent?active=" + validAddress)));
+
+        WireMock.reset();
 
     }
 
@@ -175,11 +167,6 @@ public class UnspentTransactionsEndpointTest {
         verify(getRequestedFor(urlEqualTo("/unspent?active="+addressThatReturnsMultipleUnspentOutputs)));
 
         WireMock.reset();
-    }
-
-    @AfterClass
-    public static void teardown(){
-        Spark.stop();
     }
 
 }
