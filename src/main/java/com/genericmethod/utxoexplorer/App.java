@@ -6,7 +6,10 @@ import spark.Spark;
 
 import static spark.Spark.get;
 
-
+/**
+ * This class starts is used to start a SparkServer as well as map and
+ * define the API routes.
+ */
 public class App {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(App.class);
