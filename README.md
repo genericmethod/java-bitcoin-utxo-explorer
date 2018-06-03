@@ -1,9 +1,10 @@
 # UTXO Explorer
+
 A tiny API to explore unspent bitcoin transactions
 
-UTXO Explorer - A tiny API to explore unspent bitcoin transactions
-Built with Java 8 / Spark Web framework and bitcoinj
-Tested with Wiremock and Rest-Assured.
+- Built with Java 8 / Spark Web framework and bitcoinj
+- Tested with Wiremock and Rest-Assured.
+- Requires Gradle
 
 
 ## Usage
