@@ -6,8 +6,6 @@ import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentOutput;
 import com.genericmethod.utxoexplorer.model.utxoexplorer.response.UnspentTransactionOutputsResponse;
 import com.genericmethod.utxoexplorer.service.UnspentTransactionService;
 import com.google.gson.Gson;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.Base58;
 import org.slf4j.LoggerFactory;
 import retrofit2.Call;
 import spark.Request;
@@ -22,7 +20,8 @@ public class UnspentTransactionApi extends BaseApi {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(UnspentTransactionApi.class);
 
-    public UnspentTransactionApi() {}
+    public UnspentTransactionApi() {
+    }
 
     public UnspentTransactionApi(String baseUrl) {
         super(baseUrl);
@@ -34,12 +33,8 @@ public class UnspentTransactionApi extends BaseApi {
 
         log.info(String.format("Calling getUnspentTransactions - address:%s", address));
 
-        try {
-
-            log.info(String.format("Checking if address is a Base58 address:%s", address));
-            Base58.decodeChecked(address);
-
-        } catch (AddressFormatException afex) {
+        log.info(String.format("Checking if address is a Base58 address:%s", address));
+        if (BitcoinAddressUtil.isNotValidAddress(address)) {
             log.info(String.format("Address format should be Base58 - address:%s", address));
             response.status(HttpStatusEnum.UNPROCESSABLE_ENTITY.getCode());
             return String.format("Address format should be Base58 - address:%s", address);
