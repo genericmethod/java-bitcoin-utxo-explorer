@@ -30,6 +30,7 @@ Build using gradle
 Excute JAR
 ```
 java -jar build/libs/java-bitcoin-utxo-explorer-1.0-SNAPSHOT.jar
+
 ```
 or just run this single command
 ```
