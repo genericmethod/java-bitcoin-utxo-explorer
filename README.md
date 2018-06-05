@@ -17,6 +17,12 @@ Clone this git repo
 ```
 git clone https://github.com/genericmethod/java-bitcoin-utxo-explorer.git
 ```
+
+Switch to the working directory
+```
+cd java-bitcoin-utxo-explorer
+```
+
 Build using gradle
 ```
 ./gradlew build
